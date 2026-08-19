@@ -179,9 +179,9 @@ export default function RequestDetailPage() {
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-3">
               <img
-                src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${request.student.fullName}&backgroundColor=b6e3f4,ffd5dc,c0aede`}
+                src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(request.student.fullName)}&backgroundColor=047857,065f46&textColor=ffffff&fontWeight=700&fontSize=42`}
                 alt={request.student.fullName}
-                className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-brand-500/40"
+                className="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"
               />
               <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100">
                 {request.student.fullName}

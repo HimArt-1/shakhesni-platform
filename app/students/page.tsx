@@ -54,9 +54,9 @@ export default function StudentsPage() {
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
                   <div className="flex items-center gap-2.5">
                     <img
-                      src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${std.fullName}&backgroundColor=b6e3f4,ffd5dc,c0aede`}
+                      src={`https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(std.fullName)}&backgroundColor=047857,065f46&textColor=ffffff&fontWeight=700&fontSize=42`}
                       alt={std.fullName}
-                      className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                      className="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"
                     />
                     <span className="font-extrabold text-sm text-slate-900 dark:text-slate-100">
                       {std.fullName}

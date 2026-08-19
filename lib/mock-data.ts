@@ -16,7 +16,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0501122334',
     role: 'SYSTEM_ADMIN',
     roleArabic: 'مدير النظام',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Haitham&backgroundColor=b6e3f4',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=هـ&backgroundColor=047857,065f46&textColor=ffffff&fontWeight=700&fontSize=42',
   },
   {
     id: 'usr-reception-1',
@@ -25,7 +25,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0502233445',
     role: 'RECEPTIONIST',
     roleArabic: 'موظفة الاستقبال',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Maria&backgroundColor=ffd5dc',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=مـ&backgroundColor=0f766e,115e59&textColor=ffffff&fontWeight=700&fontSize=42',
     centerId: 'center-1',
   },
   {
@@ -35,7 +35,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0503344556',
     role: 'CENTER_COORDINATOR',
     roleArabic: 'منسق مركز التشخيص',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Mohammed&backgroundColor=c0aede',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=مـ&backgroundColor=334155,1e293b&textColor=ffffff&fontWeight=700&fontSize=42',
     centerId: 'center-1',
   },
   {
@@ -46,7 +46,7 @@ export const INITIAL_USERS: User[] = [
     role: 'DIAGNOSTIC_MEMBER',
     roleArabic: 'أخصائية التقييم النفسي والمعرفي',
     specialization: 'التقييم النفسي والمعرفي WISC-V',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Sara&backgroundColor=ffdfbf',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=سـ&backgroundColor=0d9488,0f766e&textColor=ffffff&fontWeight=700&fontSize=42',
     centerId: 'center-1',
   },
   {
@@ -57,7 +57,7 @@ export const INITIAL_USERS: User[] = [
     role: 'TEAM_LEADER',
     roleArabic: 'رئيس الفريق التشخيصي',
     specialization: 'استشاري تشخيص اضطرابات النمو والتوحد',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Abdullah&backgroundColor=d1d4f9',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=عـ&backgroundColor=1e3a8a,1e40af&textColor=ffffff&fontWeight=700&fontSize=42',
     centerId: 'center-1',
   },
   {
@@ -67,7 +67,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0506677889',
     role: 'SUPERVISOR',
     roleArabic: 'المشرف العام والمدير',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=AbdullahSup&backgroundColor=d1d4f9',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=عـ&backgroundColor=1e3a8a,172554&textColor=ffffff&fontWeight=700&fontSize=42',
     centerId: 'center-1',
   },
   {
@@ -77,7 +77,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0507788990',
     role: 'SCHOOL_REP',
     roleArabic: 'ممثل المدرسة (المرشد الطلابي)',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=SchoolRep&backgroundColor=c0aede',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=مـ&backgroundColor=0284c7,0369a1&textColor=ffffff&fontWeight=700&fontSize=42',
     schoolId: 'school-1',
   },
   {
@@ -87,7 +87,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0551234567',
     role: 'PARENT',
     roleArabic: 'ولي أمر الطالب (خالد)',
-    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Ahmed&backgroundColor=ffd5dc',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=أ&backgroundColor=4f46e5,3730a3&textColor=ffffff&fontWeight=700&fontSize=42',
   },
 ];
 
