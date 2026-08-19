@@ -16,7 +16,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0501122334',
     role: 'SYSTEM_ADMIN',
     roleArabic: 'مدير النظام',
-    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Haitham&backgroundColor=b6e3f4',
   },
   {
     id: 'usr-reception-1',
@@ -25,7 +25,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0502233445',
     role: 'RECEPTIONIST',
     roleArabic: 'موظفة الاستقبال',
-    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Maria&backgroundColor=ffd5dc',
     centerId: 'center-1',
   },
   {
@@ -35,7 +35,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0503344556',
     role: 'CENTER_COORDINATOR',
     roleArabic: 'منسق مركز التشخيص',
-    avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Mohammed&backgroundColor=c0aede',
     centerId: 'center-1',
   },
   {
@@ -46,7 +46,7 @@ export const INITIAL_USERS: User[] = [
     role: 'DIAGNOSTIC_MEMBER',
     roleArabic: 'أخصائية التقييم النفسي والمعرفي',
     specialization: 'التقييم النفسي والمعرفي WISC-V',
-    avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Sara&backgroundColor=ffdfbf',
     centerId: 'center-1',
   },
   {
@@ -57,7 +57,7 @@ export const INITIAL_USERS: User[] = [
     role: 'TEAM_LEADER',
     roleArabic: 'رئيس الفريق التشخيصي',
     specialization: 'استشاري تشخيص اضطرابات النمو والتوحد',
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Abdullah&backgroundColor=d1d4f9',
     centerId: 'center-1',
   },
   {
@@ -67,7 +67,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0506677889',
     role: 'SUPERVISOR',
     roleArabic: 'المشرف العام والمدير',
-    avatarUrl: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=150',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=AbdullahSup&backgroundColor=d1d4f9',
     centerId: 'center-1',
   },
   {
@@ -77,6 +77,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0507788990',
     role: 'SCHOOL_REP',
     roleArabic: 'ممثل المدرسة (المرشد الطلابي)',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=SchoolRep&backgroundColor=c0aede',
     schoolId: 'school-1',
   },
   {
@@ -86,6 +87,7 @@ export const INITIAL_USERS: User[] = [
     phone: '0551234567',
     role: 'PARENT',
     roleArabic: 'ولي أمر الطالب (خالد)',
+    avatarUrl: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Ahmed&backgroundColor=ffd5dc',
   },
 ];
 

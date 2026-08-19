@@ -178,6 +178,11 @@ export default function RequestDetailPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-4">
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-3">
+              <img
+                src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${request.student.fullName}&backgroundColor=b6e3f4,ffd5dc,c0aede`}
+                alt={request.student.fullName}
+                className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-brand-500/40"
+              />
               <h2 className="text-xl font-extrabold text-slate-900 dark:text-slate-100">
                 {request.student.fullName}
               </h2>

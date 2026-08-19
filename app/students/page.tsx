@@ -52,9 +52,16 @@ export default function StudentsPage() {
             >
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <span className="font-extrabold text-sm text-slate-900 dark:text-slate-100">
-                    {std.fullName}
-                  </span>
+                  <div className="flex items-center gap-2.5">
+                    <img
+                      src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${std.fullName}&backgroundColor=b6e3f4,ffd5dc,c0aede`}
+                      alt={std.fullName}
+                      className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+                    />
+                    <span className="font-extrabold text-sm text-slate-900 dark:text-slate-100">
+                      {std.fullName}
+                    </span>
+                  </div>
                   <span className="font-mono text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-500">
                     {std.gender === 'MALE' ? 'ذكر' : 'أنثى'} • {std.ageYears} سنوات
                   </span>

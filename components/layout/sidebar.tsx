@@ -133,9 +133,9 @@ export const Sidebar: React.FC = () => {
       {/* Profile Card */}
       <div className="p-4 bg-slate-950/60 border-b border-slate-800/80 mx-3 my-3 rounded-xl flex items-center gap-3">
         <img
-          src={currentUser.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}
+          src={currentUser.avatarUrl || 'https://api.dicebear.com/7.x/adventurer/svg?seed=User&backgroundColor=b6e3f4'}
           alt={currentUser.name}
-          className="w-10 h-10 rounded-full object-cover border-2 border-brand-500/40"
+          className="w-10 h-10 rounded-full object-cover border-2 border-brand-500/40 bg-slate-800"
         />
         <div className="overflow-hidden">
           <h3 className="text-xs font-bold text-slate-100 truncate">{currentUser.name}</h3>
