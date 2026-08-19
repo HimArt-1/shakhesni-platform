@@ -6,10 +6,11 @@ import { RoleSwitcherBar } from '@/components/role-switcher';
 import { Sidebar } from '@/components/layout/sidebar';
 import { Header } from '@/components/layout/header';
 import { PWAInstallBanner } from '@/components/pwa-install-banner';
+import { MobileNavProvider } from '@/components/layout/mobile-nav-provider';
 
 export const metadata: Metadata = {
   title: 'شخّصني | منصة تشخيص الطلاب ذوي الإعاقة المتكاملة',
-  description: 'نظام مؤسسي ذكي لإدارة رحلة طلبات تشخيص وتقييم الطلاب ذوي الإعاقة، وإعداد الخطة التربوية الفردية والمعاينة المعتمدة.',
+  description: 'نظام مؤسسي ذكي لإدارة رحلة طلبات تشخيص وتقييم الطلاب ذوي الإعاقة، وإعداد الخطة التربوية الفردية و�[...]',
   manifest: '/manifest.json',
 };
 
@@ -35,15 +36,17 @@ export default function RootLayout({
               <RoleSwitcherBar />
 
               {/* Main Application Layout */}
-              <div className="flex flex-1">
-                <Sidebar />
-                <div className="flex-1 flex flex-col min-w-0">
-                  <Header />
-                  <main className="flex-1 p-6 overflow-y-auto">
-                    {children}
-                  </main>
+              <MobileNavProvider>
+                <div className="flex flex-1">
+                  <Sidebar />
+                  <div className="flex-1 flex flex-col min-w-0">
+                    <Header />
+                    <main className="flex-1 p-6 overflow-y-auto">
+                      {children}
+                    </main>
+                  </div>
                 </div>
-              </div>
+              </MobileNavProvider>
             </div>
           </StoreProvider>
         </ThemeProvider>
