@@ -10,7 +10,7 @@ import { MobileNavProvider } from '@/components/layout/mobile-nav-provider';
 
 export const metadata: Metadata = {
   title: 'شخّصني | منصة تشخيص الطلاب ذوي الإعاقة المتكاملة',
-  description: 'نظام مؤسسي ذكي لإدارة رحلة طلبات تشخيص وتقييم الطلاب ذوي الإعاقة، وإعداد الخطة التربوية الفردية و�[...]',
+  description: 'نظام مؤسسي ذكي لإدارة رحلة طلبات تشخيص وتقييم الطلاب ذوي الإعاقة، وإعداد الخطة التربوية الفردية والمعاينة المعتمدة.',
   manifest: '/manifest.json',
 };
 
