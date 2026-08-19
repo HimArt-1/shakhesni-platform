@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useStore } from '@/lib/store-context';
+import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import {
   Bell,
@@ -34,6 +35,7 @@ export const Header: React.FC = () => {
   const [showCommandPalette, setShowCommandPalette] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const pathname = usePathname();
 
   const { open, setOpen } = useMobileNav();
 
@@ -48,6 +50,8 @@ export const Header: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  if (pathname === '/' || pathname === '/login') return null;
 
   return (
     <>

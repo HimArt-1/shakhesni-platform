@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { useStore } from '@/lib/store-context';
 import { UserRole } from '@/types/database';
 import { ROLE_PERMISSIONS } from '@/lib/rbac';
@@ -18,8 +19,11 @@ const ROLES_LIST: { role: UserRole; label: string; icon: string }[] = [
 ];
 
 export const RoleSwitcherBar: React.FC = () => {
+  const pathname = usePathname();
   const { currentUser, switchRole } = useStore();
   const currentRoleConfig = ROLE_PERMISSIONS[currentUser.role];
+
+  if (pathname === '/' || pathname === '/login') return null;
 
   return (
     <div className="bg-slate-900 text-slate-100 border-b border-slate-800 px-4 py-1.5 text-xs flex flex-wrap items-center justify-between gap-3 shadow-inner z-50">

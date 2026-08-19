@@ -116,6 +116,8 @@ export const Sidebar: React.FC = () => {
 
   const visibleItems = NAV_ITEMS.filter((item) => allowedItems.includes(item.id));
 
+  if (pathname === '/' || pathname === '/login') return null;
+
   return (
     <>
       {/* Overlay for mobile when sidebar is open */}
