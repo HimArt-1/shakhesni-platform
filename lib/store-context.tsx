@@ -548,8 +548,8 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       goals: planData.goals || existingPlan?.goals || [],
       teamMembers: planData.teamMembers || existingPlan?.teamMembers || [
         { name: currentUser.name, role: currentUser.roleArabic || 'معلم تربية خاصة' },
-        { name: 'أ. سارة الحربي', role: 'أخصائي نطق وتخاطب' },
-        { name: 'د. خالد الغامدي', role: 'أخصائي نفسي' }
+        { name: 'أ. سارة', role: 'أخصائية نطق وتخاطب' },
+        { name: 'د. عبد الله', role: 'أخصائي نفسي' }
       ],
       parentInvolvementNotes: planData.parentInvolvementNotes || existingPlan?.parentInvolvementNotes || 'موافقة الأسرة على خطة التدريب المنزلي المعزز',
       reviewDate: planData.reviewDate || existingPlan?.reviewDate || '2026-12-15',

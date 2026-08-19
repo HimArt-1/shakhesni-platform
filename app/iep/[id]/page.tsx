@@ -66,7 +66,7 @@ export default function IEPBuilderPage() {
           status: 'IN_PROGRESS',
           progressPercentage: 60,
           criteria: 'دقة 85% في 3 جلسات تقييم مستمرة',
-          assignedSpecialist: 'أ. عبد الله الشهري (معلم صعوبات التعلم)',
+          assignedSpecialist: 'أ. هيثم (معلم صعوبات التعلم)',
         },
         {
           id: 'goal-2',
@@ -78,7 +78,7 @@ export default function IEPBuilderPage() {
           status: 'IN_PROGRESS',
           progressPercentage: 45,
           criteria: 'استجابة صحيحة في 9 من أصل 10 فرص يومية',
-          assignedSpecialist: 'أ. سارة الحربي (أخصائي تخاطب)',
+          assignedSpecialist: 'أ. سارة (أخصائية تخاطب)',
         },
         {
           id: 'goal-3',
@@ -90,7 +90,7 @@ export default function IEPBuilderPage() {
           status: 'MASTERED',
           progressPercentage: 100,
           criteria: 'الجلوس المستمر لـ 15 دقيقة مع تعزيز إيجابي متقطع',
-          assignedSpecialist: 'د. خالد الغامدي (أخصائي نفسي)',
+          assignedSpecialist: 'د. عبد الله (أخصائي نفسي)',
         },
       ];
 
@@ -490,7 +490,7 @@ export default function IEPBuilderPage() {
 
           <div className="space-y-1">
             <div className="font-bold text-slate-900 dark:text-slate-100">الأخصائي النفسي / التخاطب:</div>
-            <div className="text-slate-600 dark:text-slate-400 font-medium">أ. سارة الحربي</div>
+            <div className="text-slate-600 dark:text-slate-400 font-medium">أ. سارة</div>
             <div className="text-[10px] text-slate-400 font-mono">التوقيع الرقمي: معتمد وموثق</div>
           </div>
 

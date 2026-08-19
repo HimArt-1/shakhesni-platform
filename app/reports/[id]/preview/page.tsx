@@ -134,13 +134,13 @@ export default function PrintableReportPreviewPage() {
         <div className="pt-6 border-t-2 border-slate-800 flex items-center justify-between gap-6">
           <div className="space-y-2 text-xs">
             <div className="font-extrabold text-slate-900">اعتماد رئيس الفريق التشخيصي:</div>
-            <div className="font-bold text-slate-700">د. عبد العزيز العتيبي</div>
+            <div className="font-bold text-slate-700">د. عبد الله</div>
             <div className="font-mono text-[10px] text-slate-400">التوقيع الرقمي المشفر: e3b0c44298fc1c14...</div>
           </div>
 
           <div className="space-y-2 text-xs text-center">
             <div className="font-extrabold text-slate-900">اعتماد المشرف والختم الرسمي:</div>
-            <div className="font-bold text-slate-700">د. هدى التميمي</div>
+            <div className="font-bold text-slate-700">أ. هيثم</div>
             <div className="font-mono text-[10px] text-slate-400">رمز التوثيق: {request.reportVerificationToken || 'VRF-8841-SA'}</div>
           </div>
 

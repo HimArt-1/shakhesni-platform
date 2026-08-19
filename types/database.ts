@@ -113,9 +113,9 @@ export interface Appointment {
   id: string;
   requestId: string;
   studentName: string;
-  centerId: string;
-  centerName: string;
-  specialistId: string;
+  centerId?: string;
+  centerName?: string;
+  specialistId?: string;
   specialistName: string;
   specialization: string;
   date: string; // YYYY-MM-DD
@@ -128,7 +128,7 @@ export interface Appointment {
 export interface DiagnosticAssessment {
   id: string;
   requestId: string;
-  specialistId: string;
+  specialistId?: string;
   specialistName: string;
   specialization: string; // نفسي / نطق وتواصل / علاج وظيفي / تربوي
   assessmentDate: string;

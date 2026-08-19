@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import { useStore } from '@/lib/store-context';
-import { Calendar as CalendarIcon, Clock, CheckCircle2, XCircle, UserCheck, AlertCircle, PlusCircle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, CheckCircle2, XCircle, PlusCircle } from 'lucide-react';
 
 export default function AppointmentsPage() {
   const { requests, scheduleAppointment, updateAppointmentStatus } = useStore();
   const [selectedStudentReqId, setSelectedStudentReqId] = useState(requests[0]?.id || '');
-  const [specialistName, setSpecialistName] = useState('د. منيرة آل سعود (نفسي)');
+  const [specialistName, setSpecialistName] = useState('أ. سارة (أخصائية نفسية)');
   const [date, setDate] = useState('2026-08-05');
   const [timeSlot, setTimeSlot] = useState('09:00 ص - 10:30 ص');
   const [notes, setNotes] = useState('جلسة تطبيق مقياس وكسلر لذكاء الأطفال WISC-V');
@@ -58,23 +58,23 @@ export default function AppointmentsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Booking Form */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-sm space-y-4">
-          <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+        <form onSubmit={handleBooking} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm space-y-4 text-xs">
+          <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-1.5 pb-2 border-b border-slate-100 dark:border-slate-800">
             <PlusCircle className="w-4 h-4 text-brand-600" />
-            <span>حجز موعد جلسة تشخيص جديدة</span>
+            <span>حجز موعد تشخيصي جديد</span>
           </h3>
 
           {feedback && (
-            <div className={`p-3 rounded-xl text-xs font-bold ${feedback.includes('⚠️') ? 'bg-rose-50 text-rose-800' : 'bg-emerald-50 text-emerald-800'}`}>
+            <div className="p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-[11px] animate-in fade-in">
               {feedback}
             </div>
           )}
 
-          <form onSubmit={handleBooking} className="space-y-3 text-xs">
+          <div className="space-y-3">
             <div>
-              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">اختر الطالب / الطلب *</label>
+              <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">الطالب / رقم الطلب *</label>
               <select
                 value={selectedStudentReqId}
                 onChange={(e) => setSelectedStudentReqId(e.target.value)}
@@ -95,9 +95,9 @@ export default function AppointmentsPage() {
                 onChange={(e) => setSpecialistName(e.target.value)}
                 className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium"
               >
-                <option value="د. منيرة آل سعود (نفسي)">د. منيرة آل سعود (أخصائية نفسية)</option>
-                <option value="أ. طارق المالكي (نطق)">أ. طارق المالكي (أخصائي نطق وتواصل)</option>
-                <option value="د. فيصل بن خالد (تأهيل)">د. فيصل بن خالد (أخصائي علاج وظيفي)</option>
+                <option value="أ. سارة (أخصائية نفسية)">أ. سارة (أخصائية نفسية)</option>
+                <option value="أ. هيثم (نطق)">أ. هيثم (أخصائي نطق وتواصل)</option>
+                <option value="د. عبد الله (استشاري)">د. عبد الله (استشاري تشخيص)</option>
               </select>
             </div>
 
@@ -123,18 +123,18 @@ export default function AppointmentsPage() {
                 <option value="01:00 م - 02:30 م">01:00 م - 02:30 م</option>
               </select>
             </div>
+          </div>
 
-            <button
-              type="submit"
-              className="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md transition-all"
-            >
-              تثبيت وحجز الموعد
-            </button>
-          </form>
-        </div>
+          <button
+            type="submit"
+            className="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md transition-all"
+          >
+            تثبيت وحجز الموعد
+          </button>
+        </form>
 
         {/* Scheduled Appointments List & Attendance Matrix */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-sm space-y-4">
+        <div className="md:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl shadow-sm space-y-4">
           <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
             <span className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-brand-600" />
