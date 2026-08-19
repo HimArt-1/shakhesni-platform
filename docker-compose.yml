@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shakhesni_app
+    restart: always
+    ports:
+      - "3010:3010"
+    environment:
+      - NODE_ENV=production
+      - PORT=3010
+      - DATABASE_URL=postgresql://shakhesni_user:shakhesni_secure_pass@db:5432/shakhesni_db?schema=public
+      - NEXT_PUBLIC_APP_URL=http://localhost:3010
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - shakhesni_network
+
+  db:
+    image: postgres:16-alpine
+    container_name: shakhesni_db
+    restart: always
+    environment:
+      POSTGRES_USER: shakhesni_user
+      POSTGRES_PASSWORD: shakhesni_secure_pass
+      POSTGRES_DB: shakhesni_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./supabase/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shakhesni_user -d shakhesni_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - shakhesni_network
+
+networks:
+  shakhesni_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
