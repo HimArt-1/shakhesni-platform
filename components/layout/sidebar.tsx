@@ -20,7 +20,9 @@ import {
   GraduationCap,
   LogOut,
   ChevronLeft,
+  X,
 } from 'lucide-react';
+import { useMobileNav } from '@/components/layout/mobile-nav-provider';
 
 interface NavItem {
   id: string;
@@ -34,6 +36,8 @@ export const Sidebar: React.FC = () => {
   const pathname = usePathname();
   const { currentUser, requests, notifications } = useStore();
   const allowedItems = ROLE_PERMISSIONS[currentUser.role]?.allowedNavItems || [];
+
+  const { open, setOpen } = useMobileNav();
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
   const pendingRequestsCount = requests.filter((r) =>
@@ -113,105 +117,122 @@ export const Sidebar: React.FC = () => {
   const visibleItems = NAV_ITEMS.filter((item) => allowedItems.includes(item.id));
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-100 min-h-screen flex flex-col border-l border-slate-800 shrink-0 select-none">
-      {/* Brand Header */}
-      <div className="p-4 border-b border-slate-800 flex items-center gap-3">
-        <img
-          src="/logo.png"
-          alt="شخّصني"
-          className="w-11 h-11 object-contain rounded-xl bg-white p-1 shadow-md shadow-brand-950/50"
-        />
-        <div className="overflow-hidden">
-          <h1 className="font-extrabold text-base tracking-wide text-white flex items-center gap-1.5">
-            شخّصني
-            <span className="text-[10px] bg-brand-500/20 text-brand-400 border border-brand-500/40 px-1.5 py-0.2 rounded font-mono font-medium">
-              v1.0
-            </span>
-          </h1>
-          <p className="text-[11px] text-slate-400 truncate">منصة تشخيص الطلاب ذوي الإعاقة</p>
-        </div>
-      </div>
+    <>
+      {/* Overlay for mobile when sidebar is open */}
+      {open && <div onClick={() => setOpen(false)} className="fixed inset-0 z-40 bg-black/40 md:hidden" aria-hidden="true" />}
 
-      {/* Profile Card & Nafath SSO Link */}
-      <div className="p-3 bg-slate-950/60 border-b border-slate-800/80 mx-3 my-3 rounded-xl space-y-2.5">
-        <div className="flex items-center gap-3">
+      <aside
+        className={`fixed inset-y-0 right-0 z-50 w-64 transform bg-slate-900 text-slate-100 min-h-screen flex flex-col border-r border-slate-800 shrink-0 select-none transition-transform duration-300 md:static md:translate-x-0 ${
+          open ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
+        }`}
+        aria-hidden={!open}
+      >
+        {/* Mobile close bar */}
+        <div className="md:hidden p-3 flex justify-start">
+          <button aria-label="إغلاق القائمة" onClick={() => setOpen(false)} className="p-2 rounded">
+            <X className="w-5 h-5 text-slate-200" />
+          </button>
+        </div>
+
+        {/* Brand Header */}
+        <div className="p-4 border-b border-slate-800 flex items-center gap-3">
           <img
-            src={currentUser.avatarUrl || 'https://api.dicebear.com/7.x/initials/svg?seed=ش&backgroundColor=047857&textColor=ffffff&fontWeight=700'}
-            alt={currentUser.name}
-            className="w-10 h-10 rounded-xl object-cover border border-slate-700 bg-slate-800 shadow-sm"
+            src="/logo.png"
+            alt="شخّصني"
+            className="w-11 h-11 object-contain rounded-xl bg-white p-1 shadow-md shadow-brand-950/50"
           />
-          <div className="overflow-hidden flex-1">
-            <h3 className="text-xs font-bold text-slate-100 truncate">{currentUser.name}</h3>
-            <p className="text-[11px] text-brand-400 font-medium truncate">{currentUser.roleArabic}</p>
+          <div className="overflow-hidden">
+            <h1 className="font-extrabold text-base tracking-wide text-white flex items-center gap-1.5">
+              شخّصني
+              <span className="text-[10px] bg-brand-500/20 text-brand-400 border border-brand-500/40 px-1.5 py-0.2 rounded font-mono font-medium">
+                v1.0
+              </span>
+            </h1>
+            <p className="text-[11px] text-slate-400 truncate">منصة تشخيص الطلاب ذوي الإعاقة</p>
           </div>
         </div>
 
-        <Link
-          href="/login"
-          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/30 rounded-lg text-[11px] font-bold text-emerald-300 transition-all shadow-sm"
-        >
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-          <span>بوابة النفاذ الوطني (نفاذ)</span>
-        </Link>
-      </div>
+        {/* Profile Card & Nafath SSO Link */}
+        <div className="p-3 bg-slate-950/60 border-b border-slate-800/80 mx-3 my-3 rounded-xl space-y-2.5">
+          <div className="flex items-center gap-3">
+            <img
+              src={currentUser.avatarUrl || 'https://api.dicebear.com/7.x/initials/svg?seed=ش&backgroundColor=047857&textColor=ffffff&fontWeight=700'}
+              alt={currentUser.name}
+              className="w-10 h-10 rounded-xl object-cover border border-slate-700 bg-slate-800 shadow-sm"
+            />
+            <div className="overflow-hidden flex-1">
+              <h3 className="text-xs font-bold text-slate-100 truncate">{currentUser.name}</h3>
+              <p className="text-[11px] text-brand-400 font-medium truncate">{currentUser.roleArabic}</p>
+            </div>
+          </div>
 
-      {/* Navigation List */}
-      <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
-        <div className="text-[10px] font-bold text-slate-400 px-3 uppercase tracking-wider mb-2">
-          قائمة النظام الرئيسية
+          <Link
+            href="/login"
+            className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/30 rounded-lg text-[11px] font-bold text-emerald-100"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <span>بوابة النفاذ الوطني (نفاذ)</span>
+          </Link>
         </div>
 
-        {visibleItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+        {/* Navigation List */}
+        <nav className="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+          <div className="text-[10px] font-bold text-slate-400 px-3 uppercase tracking-wider mb-2">
+            قائمة النظام الرئيسية
+          </div>
 
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-all group ${
-                isActive
-                  ? 'bg-brand-600 text-white shadow-md shadow-brand-900/40 font-bold'
-                  : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Icon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-              </div>
+          {visibleItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
 
-              {item.badge !== undefined && (
-                <span
-                  className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
-                    isActive ? 'bg-white text-brand-700' : 'bg-brand-500/20 text-brand-300 border border-brand-500/30'
-                  }`}
-                >
-                  {item.badge}
-                </span>
-              )}
-            </Link>
-          );
-        })}
-      </nav>
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-all group ${
+                  isActive
+                    ? 'bg-brand-600 text-white shadow-md shadow-brand-900/40 font-bold'
+                    : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Icon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span>{item.label}</span>
+                </div>
 
-      {/* Footer Info & Logout */}
-      <div className="p-4 border-t border-slate-800 text-xs text-slate-400 space-y-3">
-        <Link
-          href="/"
-          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 rounded-xl text-rose-300 font-bold transition-all text-xs shadow-sm"
-        >
-          <LogOut className="w-3.5 h-3.5" />
-          <span>تسجيل الخروج (بوابة نفاذ)</span>
-        </Link>
+                {item.badge !== undefined && (
+                  <span
+                    className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      isActive ? 'bg-white text-brand-700' : 'bg-brand-500/20 text-brand-300 border border-brand-500/30'
+                    }`}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+        </nav>
 
-        <div className="flex items-center justify-between text-[11px] pt-1">
-          <span>حالة النظام:</span>
-          <span className="flex items-center gap-1 text-emerald-400 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            نشط وآمن (RLS)
-          </span>
+        {/* Footer Info & Logout */}
+        <div className="p-4 border-t border-slate-800 text-xs text-slate-400 space-y-3">
+          <Link
+            href="/"
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 rounded-xl text-rose-300 font-bold transition-all"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>تسجيل الخروج (بوابة نفاذ)</span>
+          </Link>
+
+          <div className="flex items-center justify-between text-[11px] pt-1">
+            <span>حالة النظام:</span>
+            <span className="flex items-center gap-1 text-emerald-400 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+              نشط وآمن (RLS)
+            </span>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };

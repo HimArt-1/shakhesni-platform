@@ -17,10 +17,13 @@ import {
   MessageSquare,
   Command,
   X,
+  Menu,
+  // X is already imported above for close button
 } from 'lucide-react';
 import { AIAssistantModal } from '../ai-assistant-modal';
 import { CommunicationHubModal } from '../communication-hub-modal';
 import { CommandPalette } from '../command-palette';
+import { useMobileNav } from '@/components/layout/mobile-nav-provider';
 
 export const Header: React.FC = () => {
   const { theme, setTheme } = useTheme();
@@ -31,6 +34,8 @@ export const Header: React.FC = () => {
   const [showCommandPalette, setShowCommandPalette] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
+
+  const { open, setOpen } = useMobileNav();
 
   // Listen for Cmd+K / Ctrl+K keyboard shortcut
   useEffect(() => {
@@ -46,13 +51,26 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between gap-4 sticky top-0 z-40 shadow-sm transition-colors print:hidden">
+      <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 flex items-center justify-between gap-4 sticky top-0 z-40 shadow-sm transition-colors">
+        {/* Mobile Hamburger */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="قائمة التنقل"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="md:hidden p-2 rounded-xl border border-slate-200 dark:border-slate-700"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+
         {/* Quick Global Search Trigger for Command Palette */}
         <div className="relative flex-1 max-w-md">
           <button
             type="button"
             onClick={() => setShowCommandPalette(true)}
-            className="w-full flex items-center justify-between px-3.5 py-2 text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-brand-400 transition-all text-right"
+            className="w-full flex items-center justify-between px-3.5 py-2 text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl border border-slate-200 dark:border-slate-600"
           >
             <div className="flex items-center gap-2">
               <Search className="w-4 h-4 text-slate-400" />
@@ -80,7 +98,7 @@ export const Header: React.FC = () => {
           {/* Parent Communication Hub Trigger */}
           <button
             onClick={() => setShowCommsModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-800 text-xs font-bold shadow-sm hover:bg-emerald-100 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-800"
             title="مركز مراسلات أولياء الأمور (SMS & WhatsApp)"
           >
             <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
@@ -90,7 +108,7 @@ export const Header: React.FC = () => {
           {/* AI Assistant Quick Trigger */}
           <button
             onClick={() => setShowAIModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold shadow-sm hover:shadow-md hover:from-indigo-600 hover:to-purple-700 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold shadow-sm hover:shadow-md hover:from-indigo-600"
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
             <span className="hidden sm:inline">مساعد الذكاء الاصطناعي</span>
@@ -119,7 +137,7 @@ export const Header: React.FC = () => {
 
             {/* Notifications Dropdown Panel */}
             {showNotifications && (
-              <div className="absolute left-0 mt-2 w-80 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="absolute left-0 mt-2 w-80 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700 mb-2">
                   <h4 className="text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
                     <Bell className="w-3.5 h-3.5 text-brand-500" />
