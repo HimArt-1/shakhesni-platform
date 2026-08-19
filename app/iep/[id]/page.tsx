@@ -66,7 +66,7 @@ export default function IEPBuilderPage() {
           status: 'IN_PROGRESS',
           progressPercentage: 60,
           criteria: 'دقة 85% في 3 جلسات تقييم مستمرة',
-          assignedSpecialist: 'أ. هيثم (معلم صعوبات التعلم)',
+          assignedSpecialist: 'أ. محمد (معلم صعوبات التعلم)',
         },
         {
           id: 'goal-2',

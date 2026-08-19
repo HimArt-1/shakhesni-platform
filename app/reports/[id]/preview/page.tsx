@@ -140,7 +140,7 @@ export default function PrintableReportPreviewPage() {
 
           <div className="space-y-2 text-xs text-center">
             <div className="font-extrabold text-slate-900">اعتماد المشرف والختم الرسمي:</div>
-            <div className="font-bold text-slate-700">أ. هيثم</div>
+            <div className="font-bold text-slate-700">admin</div>
             <div className="font-mono text-[10px] text-slate-400">رمز التوثيق: {request.reportVerificationToken || 'VRF-8841-SA'}</div>
           </div>
 

@@ -96,7 +96,7 @@ export default function AppointmentsPage() {
                 className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium"
               >
                 <option value="أ. سارة (أخصائية نفسية)">أ. سارة (أخصائية نفسية)</option>
-                <option value="أ. هيثم (نطق)">أ. هيثم (أخصائي نطق وتواصل)</option>
+                <option value="أ. محمد (نطق)">أ. محمد (أخصائي نطق وتواصل)</option>
                 <option value="د. عبد الله (استشاري)">د. عبد الله (استشاري تشخيص)</option>
               </select>
             </div>
