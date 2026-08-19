@@ -9,8 +9,6 @@ export const PWAInstallBanner: React.FC = () => {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  if (pathname === '/' || pathname === '/login') return null;
-
   useEffect(() => {
     const handler = (e: any) => {
       e.preventDefault();
@@ -44,6 +42,7 @@ export const PWAInstallBanner: React.FC = () => {
     }
   };
 
+  if (pathname === '/' || pathname === '/login') return null;
   if (!isVisible) return null;
 
   return (
