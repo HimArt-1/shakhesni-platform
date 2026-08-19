@@ -115,18 +115,20 @@ export const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 bg-slate-900 text-slate-100 min-h-screen flex flex-col border-l border-slate-800 shrink-0 select-none">
       {/* Brand Header */}
-      <div className="p-5 border-b border-slate-800 flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white font-bold">
-          <BrainCircuit className="w-6 h-6" />
-        </div>
-        <div>
-          <h1 className="font-extrabold text-lg tracking-wide text-white flex items-center gap-1.5">
+      <div className="p-4 border-b border-slate-800 flex items-center gap-3">
+        <img
+          src="/logo.png"
+          alt="شخّصني"
+          className="w-11 h-11 object-contain rounded-xl bg-white p-1 shadow-md shadow-brand-950/50"
+        />
+        <div className="overflow-hidden">
+          <h1 className="font-extrabold text-base tracking-wide text-white flex items-center gap-1.5">
             شخّصني
             <span className="text-[10px] bg-brand-500/20 text-brand-400 border border-brand-500/40 px-1.5 py-0.2 rounded font-mono font-medium">
               v1.0
             </span>
           </h1>
-          <p className="text-xs text-slate-400">منصة تشخيص الطلاب ذوي الإعاقة</p>
+          <p className="text-[11px] text-slate-400 truncate">منصة تشخيص الطلاب ذوي الإعاقة</p>
         </div>
       </div>
 

@@ -14,9 +14,7 @@ export default function PublicQRVerificationPage() {
   return (
     <div className="max-w-xl mx-auto py-10 space-y-6">
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
-          <ShieldCheck className="w-10 h-10" />
-        </div>
+        <img src="/logo.png" alt="شخّصني" className="w-20 h-20 object-contain mx-auto rounded-2xl bg-white p-1.5 shadow-md border border-slate-200" />
 
         <div className="space-y-2">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300 text-xs font-bold">

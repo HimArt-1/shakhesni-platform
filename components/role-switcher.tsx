@@ -22,11 +22,11 @@ export const RoleSwitcherBar: React.FC = () => {
   const currentRoleConfig = ROLE_PERMISSIONS[currentUser.role];
 
   return (
-    <div className="bg-slate-900 text-slate-100 border-b border-slate-800 px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-3 shadow-inner z-50">
+    <div className="bg-slate-900 text-slate-100 border-b border-slate-800 px-4 py-1.5 text-xs flex flex-wrap items-center justify-between gap-3 shadow-inner z-50">
       <div className="flex items-center gap-2 font-medium">
+        <img src="/logo.png" alt="شخّصني" className="w-6 h-6 object-contain rounded-md bg-white p-0.5" />
         <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-        <span className="text-slate-300 font-bold">محاكي الأدوار (RBAC Persona Switcher):</span>
+        <span className="text-slate-300 font-bold hidden sm:inline">محاكي الأدوار (RBAC Persona Switcher):</span>
         <span className="bg-brand-600/30 text-brand-300 border border-brand-500/30 px-2 py-0.5 rounded font-mono">
           {currentUser.name}
         </span>

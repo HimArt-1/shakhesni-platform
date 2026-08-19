@@ -59,9 +59,7 @@ export default function PrintableReportPreviewPage() {
           </div>
 
           <div className="text-center space-y-1">
-            <div className="w-12 h-12 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold mx-auto">
-              <BrainCircuit className="w-7 h-7" />
-            </div>
+            <img src="/logo.png" alt="شخّصني" className="w-14 h-14 object-contain mx-auto" />
             <span className="text-[10px] font-extrabold text-brand-700 block">منصة شخّصني</span>
           </div>
 

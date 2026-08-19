@@ -90,7 +90,22 @@ export default function NafathMainEntryPage() {
       {/* Background Glow */}
       <div className="absolute top-1/4 -z-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
 
-      <div className="w-full max-w-xl">
+      <div className="w-full max-w-xl space-y-4">
+        {/* Main Official Shakhesni Brand Showcase */}
+        <div className="text-center space-y-2">
+          <img
+            src="/logo.png"
+            alt="منصة شخّصني لتشخيص الطلاب ذوي الإعاقة"
+            className="w-36 h-36 mx-auto object-contain drop-shadow-xl hover:scale-105 transition-transform bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200 dark:border-slate-800 shadow-sm"
+          />
+          <h2 className="text-xl font-black text-slate-800 dark:text-slate-100">
+            منظومة التشخيص والتدخل المبكر الموحدة
+          </h2>
+          <p className="text-xs text-slate-500 max-w-md mx-auto">
+            المنصة الوطنية الرقمية المعتمدة لتقييم وتشخيص وتأهيل الطلاب ذوي الإعاقة
+          </p>
+        </div>
+
         {/* Nafath Official Brand Card */}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl overflow-hidden">
           {/* Header Banner */}
