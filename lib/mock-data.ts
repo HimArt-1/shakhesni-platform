@@ -11,6 +11,7 @@ import {
 export const INITIAL_USERS: User[] = [
   {
     id: 'usr-admin-1',
+    nationalId: '1011223344',
     name: 'admin',
     email: 'admin@shakhesni.sa',
     phone: '0501122334',
@@ -20,6 +21,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-reception-1',
+    nationalId: '1022334455',
     name: 'أ. ماريا',
     email: 'maria@shakhesni.sa',
     phone: '0502233445',
@@ -30,6 +32,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-coord-1',
+    nationalId: '1033445566',
     name: 'أ. محمد',
     email: 'mohammed@shakhesni.sa',
     phone: '0503344556',
@@ -40,6 +43,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-specialist-1',
+    nationalId: '1044556677',
     name: 'أ. سارة',
     email: 'sara@shakhesni.sa',
     phone: '0504455667',
@@ -51,6 +55,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-teamleader-1',
+    nationalId: '1055667788',
     name: 'د. عبد الله',
     email: 'abdullah@shakhesni.sa',
     phone: '0505566778',
@@ -62,6 +67,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-supervisor-1',
+    nationalId: '1066778899',
     name: 'د. عبد الله',
     email: 'abdullah.sup@shakhesni.sa',
     phone: '0506677889',
@@ -72,6 +78,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-school-1',
+    nationalId: '1077889900',
     name: 'أ. محمد',
     email: 'mohammed.school@shakhesni.sa',
     phone: '0507788990',
@@ -82,6 +89,7 @@ export const INITIAL_USERS: User[] = [
   },
   {
     id: 'usr-parent-1',
+    nationalId: '1088990011',
     name: 'أحمد خالد',
     email: 'ahmed.khalid@gmail.com',
     phone: '0551234567',

@@ -130,17 +130,27 @@ export const Sidebar: React.FC = () => {
         </div>
       </div>
 
-      {/* Profile Card */}
-      <div className="p-4 bg-slate-950/60 border-b border-slate-800/80 mx-3 my-3 rounded-xl flex items-center gap-3">
-        <img
-          src={currentUser.avatarUrl || 'https://api.dicebear.com/7.x/initials/svg?seed=ش&backgroundColor=047857&textColor=ffffff&fontWeight=700'}
-          alt={currentUser.name}
-          className="w-10 h-10 rounded-xl object-cover border border-slate-700 bg-slate-800 shadow-sm"
-        />
-        <div className="overflow-hidden">
-          <h3 className="text-xs font-bold text-slate-100 truncate">{currentUser.name}</h3>
-          <p className="text-[11px] text-brand-400 font-medium truncate">{currentUser.roleArabic}</p>
+      {/* Profile Card & Nafath SSO Link */}
+      <div className="p-3 bg-slate-950/60 border-b border-slate-800/80 mx-3 my-3 rounded-xl space-y-2.5">
+        <div className="flex items-center gap-3">
+          <img
+            src={currentUser.avatarUrl || 'https://api.dicebear.com/7.x/initials/svg?seed=ش&backgroundColor=047857&textColor=ffffff&fontWeight=700'}
+            alt={currentUser.name}
+            className="w-10 h-10 rounded-xl object-cover border border-slate-700 bg-slate-800 shadow-sm"
+          />
+          <div className="overflow-hidden flex-1">
+            <h3 className="text-xs font-bold text-slate-100 truncate">{currentUser.name}</h3>
+            <p className="text-[11px] text-brand-400 font-medium truncate">{currentUser.roleArabic}</p>
+          </div>
         </div>
+
+        <Link
+          href="/login"
+          className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 bg-emerald-950/60 hover:bg-emerald-900/80 border border-emerald-500/30 rounded-lg text-[11px] font-bold text-emerald-300 transition-all shadow-sm"
+        >
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <span>بوابة النفاذ الوطني (نفاذ)</span>
+        </Link>
       </div>
 
       {/* Navigation List */}

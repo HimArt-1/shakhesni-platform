@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useStore } from '@/lib/store-context';
 import { useTheme } from 'next-themes';
 import {
@@ -66,6 +67,16 @@ export const Header: React.FC = () => {
 
         {/* Right Action Icons */}
         <div className="flex items-center gap-3">
+          {/* Nafath SSO Login Button */}
+          <Link
+            href="/login"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-extrabold shadow-sm transition-all border border-emerald-600"
+            title="تسجيل الدخول والمصادقة عبر بوابة النفاذ الوطني الموحد"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-300" />
+            <span className="hidden sm:inline">بوابة نفاذ</span>
+          </Link>
+
           {/* Parent Communication Hub Trigger */}
           <button
             onClick={() => setShowCommsModal(true)}
