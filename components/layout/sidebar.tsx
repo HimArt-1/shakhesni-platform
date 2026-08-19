@@ -44,7 +44,7 @@ export const Sidebar: React.FC = () => {
     {
       id: 'dashboard',
       label: 'لوحة القيادة الذكية',
-      href: '/',
+      href: '/dashboard',
       icon: LayoutDashboard,
     },
     {
@@ -192,9 +192,17 @@ export const Sidebar: React.FC = () => {
         })}
       </nav>
 
-      {/* Footer Info */}
-      <div className="p-4 border-t border-slate-800 text-xs text-slate-400 space-y-2">
-        <div className="flex items-center justify-between text-[11px]">
+      {/* Footer Info & Logout */}
+      <div className="p-4 border-t border-slate-800 text-xs text-slate-400 space-y-3">
+        <Link
+          href="/"
+          className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-500/30 rounded-xl text-rose-300 font-bold transition-all text-xs shadow-sm"
+        >
+          <LogOut className="w-3.5 h-3.5" />
+          <span>تسجيل الخروج (بوابة نفاذ)</span>
+        </Link>
+
+        <div className="flex items-center justify-between text-[11px] pt-1">
           <span>حالة النظام:</span>
           <span className="flex items-center gap-1 text-emerald-400 font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />

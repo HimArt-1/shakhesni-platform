@@ -47,7 +47,7 @@ export const CommandPalette: React.FC<{
       subtitle: 'نظرة عامة على الإحصائيات وسير العمل',
       icon: <BarChart3 className="w-4 h-4 text-brand-600" />,
       action: () => {
-        router.push('/');
+        router.push('/dashboard');
         onClose();
       },
     },

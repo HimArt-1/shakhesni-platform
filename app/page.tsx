@@ -1,332 +1,313 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store-context';
-import { REQUEST_STATES } from '@/lib/state-machine';
-import { calculateSLA } from '@/lib/sla-calculator';
 import {
-  FileText,
-  Clock,
-  CheckCircle2,
-  AlertTriangle,
-  Users,
-  PlusCircle,
-  Stethoscope,
-  Building2,
-  TrendingUp,
-  Sparkles,
-  ArrowUpLeft,
-  Calendar,
   ShieldCheck,
+  Smartphone,
+  CheckCircle2,
+  AlertCircle,
+  KeyRound,
+  ArrowRight,
+  RefreshCw,
+  Sparkles,
+  Lock,
+  Building2,
+  UserCheck,
+  ChevronLeft,
 } from 'lucide-react';
-import Link from 'next/link';
 
-export default function SmartDashboardPage() {
-  const { currentUser, requests, notifications } = useStore();
+export default function NafathMainEntryPage() {
+  const router = useRouter();
+  const { users, currentUser, setCurrentUser } = useStore();
 
-  // Metric Calculations
-  const totalCount = requests.length;
-  const pendingDocsCount = requests.filter((r) => r.status === 'DOC_REVIEW' || r.status === 'SUBMITTED').length;
-  const inEvaluationCount = requests.filter((r) => r.status === 'UNDER_EVALUATION' || r.status === 'TEAM_ASSIGNED').length;
-  const approvedCount = requests.filter((r) => r.status === 'APPROVED' || r.status === 'DELIVERED').length;
-  const missingDocsCount = requests.filter((r) => r.status === 'DOCS_INCOMPLETE').length;
+  const [step, setStep] = useState<'ENTER_ID' | 'NAFATH_PROMPT' | 'SUCCESS'>('ENTER_ID');
+  const [nationalId, setNationalId] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [randomVerificationCode, setRandomVerificationCode] = useState(42);
+  const [countdown, setCountdown] = useState(60);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
 
-  const slaBreachedCount = requests.filter((r) => {
-    const sla = calculateSLA(r.createdAt, r.priority, r.status, r.statusHistory);
-    return sla.isBreached;
-  }).length;
+  // Generate random 2-digit verification code
+  const generateRandomCode = () => {
+    return Math.floor(Math.random() * 89) + 10;
+  };
+
+  // Handle entering ID
+  const handleProceedToNafath = (idToUse?: string) => {
+    const targetId = idToUse || nationalId.trim();
+    if (!targetId || targetId.length !== 10) {
+      setErrorMsg('يرجى إدخال رقم هوية وطنية أو إقامة صحيح مكون من 10 أرقام');
+      return;
+    }
+
+    const matchedUser = users.find((u) => u.nationalId === targetId);
+    if (!matchedUser) {
+      setErrorMsg('رقم الهوية غير مسجل في منظومة شخّصني. يرجى اختيار أحد الحسابات المعتمدة أدناه.');
+      return;
+    }
+
+    setSelectedUser(matchedUser);
+    setErrorMsg('');
+    setRandomVerificationCode(generateRandomCode());
+    setCountdown(60);
+    setStep('NAFATH_PROMPT');
+  };
+
+  // Quick Persona Select
+  const handleQuickSelect = (user: any) => {
+    setNationalId(user.nationalId || '');
+    handleProceedToNafath(user.nationalId);
+  };
+
+  // Timer countdown
+  useEffect(() => {
+    let timer: any;
+    if (step === 'NAFATH_PROMPT' && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else if (countdown === 0 && step === 'NAFATH_PROMPT') {
+      setErrorMsg('انتهت مهلة الطلب، يرجى إعادة المحاولة.');
+    }
+    return () => clearInterval(timer);
+  }, [step, countdown]);
+
+  // Complete Authentication
+  const handleApproveAuth = () => {
+    if (selectedUser) {
+      setCurrentUser(selectedUser);
+      setStep('SUCCESS');
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 1400);
+    }
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner / Welcome */}
-      <div className="bg-gradient-to-r from-brand-900 via-brand-800 to-indigo-900 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="relative z-10 space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-brand-200 text-xs font-semibold backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>نظام التشخيص والمتابعة الذكي v1.0</span>
-          </div>
-          <h2 className="text-xl md:text-2xl font-extrabold tracking-tight">
-            أهلاً بك، {currentUser.name}
-          </h2>
-          <p className="text-xs text-brand-100 max-w-xl leading-relaxed">
-            المنصة متكيفة حالياً وفق صلاحياتك كـ ({currentUser.roleArabic}). تتابع المنصة حالة {totalCount} طلبات تشخيص نشطة مع حساب اتفاقية مستويات الخدمة SLA لحظياً.
-          </p>
-        </div>
+    <div className="min-h-[85vh] flex flex-col justify-center items-center py-6 px-4 sm:px-6">
+      {/* Background Glow */}
+      <div className="absolute top-1/4 -z-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
 
-        <div className="flex items-center gap-3 relative z-10">
-          <Link
-            href="/requests/new"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-brand-500 hover:bg-brand-400 text-white font-bold text-xs shadow-lg shadow-brand-950/40 transition-all hover:scale-105"
-          >
-            <PlusCircle className="w-4 h-4" />
-            <span>إنشاء طلب جديد</span>
-          </Link>
-        </div>
-
-        {/* Ambient Glow Decorative */}
-        <div className="absolute -left-10 -bottom-10 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
-      </div>
-
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {/* Total Requests */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">إجمالي الطلبات</span>
-            <span className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{totalCount}</span>
-            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block mt-1 font-semibold">
-              ↑ +12% مقارنة بالشهر السابق
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold">
-            <FileText className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* Pending Docs */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">بانتظار تدقيق المستندات</span>
-            <span className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{pendingDocsCount}</span>
-            <span className="text-[10px] text-amber-600 dark:text-amber-400 block mt-1 font-semibold">
-              تحتاج إجراء موظفة الاستقبال
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold">
-            <Clock className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* Under Evaluation */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">قيد الجلسات والتشخيص</span>
-            <span className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{inEvaluationCount}</span>
-            <span className="text-[10px] text-purple-600 dark:text-purple-400 block mt-1 font-semibold">
-              فريق الأخصائيين الميداني
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold">
-            <Stethoscope className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* Approved Reports */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">تقارير معتمدة (QR)</span>
-            <span className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{approvedCount}</span>
-            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 block mt-1 font-semibold">
-              جاهزة للتسليم والأرشفة
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* SLA Paused / Missing Docs */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex items-center justify-between">
-          <div>
-            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">مستندات ناقصة (SLA متوقف)</span>
-            <span className="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{missingDocsCount}</span>
-            <span className="text-[10px] text-rose-600 dark:text-rose-400 block mt-1 font-semibold">
-              بانتظار إرفاق ولي الأمر
-            </span>
-          </div>
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">
-            <AlertTriangle className="w-6 h-6" />
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content Sections Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Columns: Requests Table Overview */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-brand-600" />
-                  <span>طلبات التشخيص الحالية وأداء الـ SLA</span>
-                </h3>
-                <p className="text-[11px] text-slate-500">نظرة عامة على أحدث الطلبات ومستوى تقدم الإجراءات</p>
-              </div>
-
-              <Link
-                href="/requests"
-                className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
-              >
-                <span>عرض جميع الطلبات ({totalCount})</span>
-                <ArrowUpLeft className="w-3.5 h-3.5" />
-              </Link>
+      <div className="w-full max-w-xl">
+        {/* Nafath Official Brand Card */}
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl overflow-hidden">
+          {/* Header Banner */}
+          <div className="bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white p-6 sm:p-8 text-center relative">
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-3 border border-white/20 shadow-inner">
+              <ShieldCheck className="w-9 h-9 text-emerald-300" />
             </div>
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight">بوابة النفاذ الوطني الموحد (نفاذ)</h1>
+            <p className="text-xs text-emerald-100 mt-1 font-medium">
+              تسجيل الدخول الرقمي الموحد لمنصة شخّصني لتشخيص الطلاب ذوي الإعاقة
+            </p>
+            <div className="absolute top-4 left-4 text-[10px] bg-emerald-950/60 border border-emerald-400/30 px-2.5 py-1 rounded-full text-emerald-200 font-mono">
+              Gov SSO 2.0
+            </div>
+          </div>
 
-            <div className="divide-y divide-slate-100 dark:divide-slate-800 overflow-x-auto">
-              {requests.map((r) => {
-                const sla = calculateSLA(r.createdAt, r.priority, r.status, r.statusHistory);
-                const meta = REQUEST_STATES[r.status];
-
-                return (
-                  <div
-                    key={r.id}
-                    className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 p-2 rounded-xl transition-colors"
-                  >
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-extrabold text-xs text-slate-900 dark:text-slate-100">
-                          {r.student.fullName}
-                        </span>
-                        <span className="font-mono text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-400">
-                          {r.requestNumber}
-                        </span>
-                        <span className={`text-[10px] px-2 py-0.5 rounded-full border ${meta.badgeClass}`}>
-                          {meta.arabicName}
-                        </span>
-                      </div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-3">
-                        <span>فئة الإعاقة: <strong>{r.primaryCategoryArabic}</strong></span>
-                        <span>•</span>
-                        <span>المدرسة: {r.schoolName}</span>
-                      </div>
+          {/* Body content based on step */}
+          <div className="p-6 sm:p-8 space-y-6">
+            {/* STEP 1: Enter National ID */}
+            {step === 'ENTER_ID' && (
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    رقم الهوية الوطنية / الإقامة
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      maxLength={10}
+                      value={nationalId}
+                      onChange={(e) => {
+                        setNationalId(e.target.value.replace(/\D/g, ''));
+                        setErrorMsg('');
+                      }}
+                      placeholder="أدخل رقم الهوية المكون من 10 أرقام (مثال: 1011223344)"
+                      className="w-full px-4 py-3.5 pl-12 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl font-mono text-base font-bold text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    />
+                    <KeyRound className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                  </div>
+                  {errorMsg && (
+                    <div className="flex items-center gap-1.5 text-xs text-rose-600 font-semibold mt-2">
+                      <AlertCircle className="w-4 h-4" />
+                      <span>{errorMsg}</span>
                     </div>
+                  )}
+                </div>
 
-                    <div className="flex items-center gap-3 justify-between sm:justify-end">
-                      {/* SLA Gauge */}
-                      <div className="text-right">
-                        <div className="flex items-center gap-1 text-[11px] font-bold">
-                          {sla.isPaused ? (
-                            <span className="text-amber-600 dark:text-amber-400">متوقف مؤقتاً</span>
-                          ) : (
-                            <span className={sla.isBreached ? 'text-rose-600' : 'text-slate-700 dark:text-slate-300'}>
-                              متبقي {sla.daysRemaining} يوم
-                            </span>
-                          )}
-                        </div>
-                        <div className="w-24 bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
-                          <div
-                            className={`h-full transition-all ${
-                              sla.isPaused
-                                ? 'bg-amber-400'
-                                : sla.isBreached
-                                ? 'bg-rose-500'
-                                : sla.percentageUsed > 75
-                                ? 'bg-amber-500'
-                                : 'bg-emerald-500'
-                            }`}
-                            style={{ width: `${sla.percentageUsed}%` }}
-                          />
-                        </div>
-                      </div>
+                <button
+                  onClick={() => handleProceedToNafath()}
+                  className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm transition-all shadow-lg shadow-emerald-600/25"
+                >
+                  <span>تسجيل الدخول عبر نفاذ</span>
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
 
-                      <Link
-                        href={`/requests/${r.id}`}
-                        className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-brand-500 hover:text-white dark:hover:bg-brand-600 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors"
+                {/* Quick Persona Selector for Testing */}
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-600 dark:text-slate-400">
+                    <span className="flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      <span>اختيار سريع لحسابات النظام التجريبية:</span>
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-normal">اضغط للدخول المباشر</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    {users.map((u) => (
+                      <button
+                        key={u.id}
+                        onClick={() => handleQuickSelect(u)}
+                        className="p-3 bg-slate-50 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 border border-slate-200 dark:border-slate-700 hover:border-emerald-500/50 rounded-xl text-right transition-all flex items-center gap-2.5 group"
                       >
-                        معاينة
-                      </Link>
+                        <img
+                          src={u.avatarUrl}
+                          alt={u.name}
+                          className="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-700"
+                        />
+                        <div className="overflow-hidden flex-1">
+                          <div className="font-extrabold text-slate-800 dark:text-slate-200 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 truncate">
+                            {u.name}
+                          </div>
+                          <div className="text-[10px] text-slate-500 truncate">{u.roleArabic}</div>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-400 bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700">
+                          {u.nationalId?.slice(-4)}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 2: Nafath App Prompt Verification */}
+            {step === 'NAFATH_PROMPT' && (
+              <div className="space-y-6 text-center">
+                <div className="space-y-1">
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-3 py-1 rounded-full inline-block">
+                    طلب مصادقة نفاذ قيد المعالجة
+                  </span>
+                  <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100 pt-2">
+                    الرجاء فتح تطبيق نفاذ وتأكيد الرقم
+                  </h3>
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                    تم إرسال إشعار فوري إلى هاتفك المحمول المسجل. افتح تطبيق نفاذ واختر الرقم أدناه لإتمام الدخول:
+                  </p>
+                </div>
+
+                {/* Big 2-Digit Verification Display */}
+                <div className="py-6 flex flex-col items-center justify-center">
+                  <div className="relative flex items-center justify-center w-36 h-36 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border-4 border-emerald-500 shadow-xl shadow-emerald-500/20 animate-pulse">
+                    <span className="text-6xl font-black font-mono text-emerald-600 dark:text-emerald-400 tracking-tighter">
+                      {randomVerificationCode}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                    <ClockIcon className="w-4 h-4 text-emerald-600 animate-spin" />
+                    <span>متبقي على انتهاء الصلاحية: </span>
+                    <strong className="font-mono text-emerald-600 font-bold">{countdown} ثانية</strong>
+                  </div>
+                </div>
+
+                {/* Simulated Persona Target info */}
+                <div className="p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs flex items-center justify-between text-right">
+                  <div className="flex items-center gap-2">
+                    <img src={selectedUser?.avatarUrl} alt="" className="w-8 h-8 rounded-lg" />
+                    <div>
+                      <div className="font-extrabold text-slate-800 dark:text-slate-200">{selectedUser?.name}</div>
+                      <div className="text-[10px] text-slate-500">{selectedUser?.roleArabic}</div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
+                  <div className="text-left font-mono text-[11px] text-slate-500">
+                    <div>الهوية: {selectedUser?.nationalId}</div>
+                  </div>
+                </div>
 
-          {/* SLA Escalation Rules & Priority Breakdown */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
-            <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-purple-600" />
-              <span>مؤشرات وقواعد التصعيد التلقائي (SLA Rules)</span>
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60">
-                <span className="font-bold text-rose-800 dark:text-rose-300 block mb-1">
-                  أولوية عاجلة جداً (Emergent - 48 ساعة):
-                </span>
-                <span className="text-slate-600 dark:text-slate-400 text-[11px] leading-snug block">
-                  الحالات المحالة بشرط التدخل السريع. يتم إرسال تنبيه فوري لمشرف المركز بعد انقضاء 24 ساعة.
-                </span>
+                {/* Simulation Action Buttons */}
+                <div className="space-y-3 pt-2">
+                  <button
+                    onClick={handleApproveAuth}
+                    className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm transition-all shadow-lg shadow-emerald-600/30"
+                  >
+                    <Smartphone className="w-4 h-4" />
+                    <span>محاكاة قبول وتأكيد الطلب في تطبيق نفاذ</span>
+                  </button>
+
+                  <button
+                    onClick={() => setStep('ENTER_ID')}
+                    className="w-full py-2.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+                  >
+                    إلغاء والعودة لشاشة رقم الهوية
+                  </button>
+                </div>
               </div>
-              <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60">
-                <span className="font-bold text-amber-800 dark:text-amber-300 block mb-1">
-                  أولوية عالية (High - 5 أيام):
-                </span>
-                <span className="text-slate-600 dark:text-slate-400 text-[11px] leading-snug block">
-                  تحديد الفريق الطبي والتربوي وحجز الموعد خلال 48 ساعة من مراجعة المستندات.
-                </span>
+            )}
+
+            {/* STEP 3: Success Screen */}
+            {step === 'SUCCESS' && (
+              <div className="py-10 text-center space-y-4">
+                <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-950 rounded-full flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400 border-4 border-emerald-500 animate-bounce">
+                  <CheckCircle2 className="w-12 h-12" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-black text-slate-900 dark:text-slate-100">تم التحقق والمصادقة بنجاح!</h3>
+                  <p className="text-xs text-slate-500">
+                    مرحباً بك <strong>{selectedUser?.name}</strong> ({selectedUser?.roleArabic}). جاري توجيهك إلى لوحة القيادة الذكية...
+                  </p>
+                </div>
+                <div className="w-32 h-1.5 bg-emerald-200 dark:bg-emerald-900 rounded-full mx-auto overflow-hidden">
+                  <div className="h-full bg-emerald-600 animate-pulse w-full" />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
-        {/* Right 1 Column: Center Workload & Quick Actions */}
-        <div className="space-y-6">
-          {/* Diagnostic Center Capacity */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-            <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-brand-600" />
-              <span>الطاقة الاستيعابية للمراكز</span>
-            </h3>
-
-            <div className="space-y-3 text-xs">
-              <div>
-                <div className="flex justify-between font-bold text-slate-800 dark:text-slate-200 mb-1">
-                  <span>مركز الرياض الموحد</span>
-                  <span className="text-brand-600">80% مشغولة</span>
-                </div>
-                <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div className="bg-brand-600 h-full w-[80%]" />
-                </div>
-                <span className="text-[10px] text-slate-500 mt-1 block">12 من أصل 15 حالة يومية</span>
-              </div>
-
-              <div>
-                <div className="flex justify-between font-bold text-slate-800 dark:text-slate-200 mb-1">
-                  <span>مركز جدة للتقييم</span>
-                  <span className="text-emerald-600">50% مشغولة</span>
-                </div>
-                <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
-                  <div className="bg-emerald-500 h-full w-[50%]" />
-                </div>
-                <span className="text-[10px] text-slate-500 mt-1 block">6 من أصل 12 حالة يومية</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Tasks & Shortcuts */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
-            <h3 className="font-extrabold text-sm text-slate-800 dark:text-slate-100 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>الإجراءات السريعة في النظام</span>
-            </h3>
-
-            <div className="space-y-2 text-xs">
-              <Link
-                href="/appointments"
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-brand-50 dark:hover:bg-brand-950/40 text-slate-700 dark:text-slate-300 transition-colors font-medium border border-slate-200 dark:border-slate-700"
-              >
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-brand-600" />
-                  <span>جدولة مواعيد الجلسات والتقويم</span>
-                </div>
-                <ArrowUpLeft className="w-3.5 h-3.5 text-slate-400" />
-              </Link>
-
-              <Link
-                href="/audit-log"
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-brand-50 dark:hover:bg-brand-950/40 text-slate-700 dark:text-slate-300 transition-colors font-medium border border-slate-200 dark:border-slate-700"
-              >
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>سجل الأمان والتدقيق غير القابل للتعديل</span>
-                </div>
-                <ArrowUpLeft className="w-3.5 h-3.5 text-slate-400" />
-              </Link>
-            </div>
+        {/* Footer Trust Badges */}
+        <div className="mt-6 text-center text-xs text-slate-400 space-y-2">
+          <div className="flex items-center justify-center gap-4 text-[11px] font-medium">
+            <span className="flex items-center gap-1">
+              <Lock className="w-3.5 h-3.5 text-emerald-600" />
+              <span>تشفير 256-bit آمن</span>
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Building2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>هيئة الحكومة الرقمية (DGA)</span>
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>النفاذ الوطني الموحد</span>
+            </span>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+function ClockIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
   );
 }
