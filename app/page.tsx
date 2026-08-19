@@ -86,22 +86,29 @@ export default function NafathMainEntryPage() {
   };
 
   return (
-    <div className="min-h-[85vh] flex flex-col justify-center items-center py-6 px-4 sm:px-6">
+    <div className="min-h-[calc(100vh-3rem)] flex flex-col justify-center items-center py-6 px-4 sm:px-6">
       {/* Background Glow */}
-      <div className="absolute top-1/4 -z-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 -z-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-xl space-y-4">
+      <div className="w-full max-w-xl space-y-6">
         {/* Main Official Shakhesni Brand Showcase */}
-        <div className="text-center space-y-2">
-          <img
-            src="/logo.png"
-            alt="منصة شخّصني لتشخيص الطلاب ذوي الإعاقة"
-            className="w-36 h-36 mx-auto object-contain drop-shadow-xl hover:scale-105 transition-transform bg-white dark:bg-slate-900 rounded-3xl p-3 border border-slate-200 dark:border-slate-800 shadow-sm"
-          />
-          <h2 className="text-xl font-black text-slate-800 dark:text-slate-100">
+        <div className="text-center space-y-3">
+          <div className="flex justify-center items-center">
+            <img
+              src="/logo.png"
+              alt="منصة شخّصني لتشخيص الطلاب ذوي الإعاقة"
+              className="w-52 h-52 sm:w-64 sm:h-64 object-contain drop-shadow-2xl hover:scale-105 transition-transform dark:hidden"
+            />
+            <img
+              src="/logo-white.png"
+              alt="منصة شخّصني لتشخيص الطلاب ذوي الإعاقة"
+              className="w-52 h-52 sm:w-64 sm:h-64 object-contain drop-shadow-2xl hover:scale-105 transition-transform hidden dark:block"
+            />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-slate-100">
             منظومة التشخيص والتدخل المبكر الموحدة
           </h2>
-          <p className="text-xs text-slate-500 max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
             المنصة الوطنية الرقمية المعتمدة لتقييم وتشخيص وتأهيل الطلاب ذوي الإعاقة
           </p>
         </div>

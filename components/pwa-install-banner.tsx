@@ -1,11 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { Download, X, Smartphone, Sparkles } from 'lucide-react';
 
 export const PWAInstallBanner: React.FC = () => {
+  const pathname = usePathname();
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isVisible, setIsVisible] = useState(false);
+
+  if (pathname === '/' || pathname === '/login') return null;
 
   useEffect(() => {
     const handler = (e: any) => {
